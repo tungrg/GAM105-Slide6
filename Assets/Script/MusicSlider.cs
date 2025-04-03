@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class MusicSlider : MonoBehaviour
 {
     public Slider slider;
+    public Toggle toggle;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -11,7 +12,8 @@ public class MusicSlider : MonoBehaviour
         if (PlayerPrefs.HasKey("soundVol"))
         {
             LoadVolume();
-        } else
+        }
+        else
         {
             PlayerPrefs.SetFloat("soundVol", 0.5f);
             LoadVolume();
@@ -20,22 +22,31 @@ public class MusicSlider : MonoBehaviour
     public void SetVolume()
     {
         AudioListener.volume = slider.value;
-
-        
+        SaveVolume();
     }
     public void SaveVolume()
     {
         PlayerPrefs.SetFloat("soundVol", slider.value);
-        PlayerPrefs.Save();
     }
     public void LoadVolume()
     {
-        PlayerPrefs.SetFloat("soundVol", slider.value);
+        slider.value = PlayerPrefs.GetFloat("soundVol");
+    }
+    public void SwitchOnOff()
+    {
+        if(toggle.isOn)
+        {
+            AudioListener.volume = slider.value;
+        }
+        else
+        {
+            AudioListener.volume = 0;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        //AudioListener.volume = slider.value;
+
     }
 }
